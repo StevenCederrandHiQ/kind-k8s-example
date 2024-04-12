@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.httpUserService.service.metadata.name }}
+spec:
+  type: {{ .Values.httpUserService.service.type }}
+  ports:
+    - port: {{ .Values.httpUserService.service.port }}
+      nodePort: {{ .Values.httpUserService.service.nodePort }} 
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ .Values.httpUserService.metadata.name }}
+

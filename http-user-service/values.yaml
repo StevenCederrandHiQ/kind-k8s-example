@@ -1,0 +1,44 @@
+# Default values for http-user-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+httpUserService:
+  metadata:
+    name: http-user-service
+  deployment:
+    metadata:
+      name: http-user-service-deployment
+    image:
+      repository: http-user-service
+      tag: latest
+    containerPort: 9091
+  hpa:
+    metadata:
+      name: http-user-service-hpa
+    autoscaling:
+      minReplicas: 1
+      maxReplicas: 4
+      targetCPUUtilizationPercentage: 80
+  service:
+    metadata:
+      name: http-user-service-svc
+    type: NodePort
+    port: 9091
+    nodePort: 30090
+  serviceaccount:
+    metadata:
+      create: true
+      name: http-user-service-sa
+    automount: true
+  ingress:
+    metadata:
+      create: false
+      name: http-user-service-ingress
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
